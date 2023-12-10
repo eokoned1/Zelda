@@ -1,0 +1,62 @@
+CXX = g++
+CXXFLAGS = -Wall -g
+OBJECTS = Area.o Armos.o Bomb.o Boomerang.o Enemy.o Game.o Hero.o Moblin.o Peahat.o Sword.o Weapon.o
+IODIR = ../../proj4_IO/
+
+proj4: $(OBJECTS) proj4.cpp
+        $(CXX) $(CXXFLAGS) $(OBJECTS) proj4.cpp -o proj4
+
+Enemy.o: Enemy.h Enemy.cpp
+        $(CXX) $(CXXFLAGS) -c Enemy.cpp
+
+Armos.o: Armos.h Armos.cpp Enemy.o
+        $(CXX) $(CXXFLAGS) -c Armos.cpp
+
+Moblin.o: Moblin.h Moblin.cpp Enemy.o
+        $(CXX) $(CXXFLAGS) -c Moblin.cpp
+
+Peahat.o: Peahat.h Peahat.cpp Enemy.o
+        $(CXX) $(CXXFLAGS) -c Peahat.cpp
+
+Weapon.o: Weapon.h Weapon.cpp
+        $(CXX) $(CXXFLAGS) -c Weapon.cpp
+
+Bomb.o: Bomb.h Bomb.cpp Weapon.o
+        $(CXX) $(CXXFLAGS) -c Bomb.cpp
+
+Boomerang.o: Boomerang.h Boomerang.cpp Weapon.o
+        $(CXX) $(CXXFLAGS) -c Boomerang.cpp
+
+Sword.o: Sword.h Sword.cpp Weapon.o
+        $(CXX) $(CXXFLAGS) -c Sword.cpp
+
+Hero.o: Hero.h Hero.cpp Weapon.o Sword.o Boomerang.o Bomb.o
+        $(CXX) $(CXXFLAGS) -c Hero.cpp
+
+Area.o: Area.h Area.cpp
+        $(CXX) $(CXXFLAGS) -c Area.cpp
+
+Game.o: Game.h Game.cpp Area.o Hero.o
+        $(CXX) $(CXXFLAGS) -c Game.cpp
+
+clean:
+        rm *.o*
+        rm *~
+
+run:
+        ./proj4
+
+run1:
+        ./proj4 proj4_map1.txt
+
+run2:
+        ./proj4 proj4_map2.txt
+
+val1:
+        valgrind ./proj4 proj4_map1.txt
+
+val2:
+        valgrind ./proj4 proj4_map2.txt
+
+debug:
+        gdb gdbarg1 --args ./proj4
